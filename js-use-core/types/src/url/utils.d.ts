@@ -1,0 +1,32 @@
+import type { UrlValidateOptions, QueryParams } from './types';
+export declare function isValidUrl(url: string, options?: UrlValidateOptions): boolean;
+export declare function normalizeUrl(url: string, base?: string): string;
+export declare function joinPath(base: string, ...paths: string[]): string;
+export declare function getFileExtensionFromUrl(url: string): string;
+export declare function getFileNameFromUrl(url: string, withExtension?: boolean): string;
+export declare function addQuery(url: string, params: QueryParams): string;
+export declare function removeQuery(url: string, keys: string | string[]): string;
+export declare function isRelativeUrl(url: string): boolean;
+export declare function isAbsoluteUrl(url: string): boolean;
+export declare function isSameOrigin(url1: string, url2: string): boolean;
+export declare function isSecureUrl(url: string): boolean;
+export declare function sanitizeUrl(url: string): string;
+export declare function encodeUrl(str: string, component?: boolean): string;
+export declare function decodeUrl(str: string, component?: boolean): string;
+export declare class UrlBuilder {
+    private _protocol;
+    private _hostname;
+    private _port;
+    private _pathname;
+    private _search;
+    private _hash;
+    protocol(protocol: string): this;
+    hostname(hostname: string): this;
+    port(port: string | number): this;
+    pathname(pathname: string): this;
+    query(key: string, value: string | string[]): this;
+    queries(params: Record<string, string | string[]>): this;
+    hash(hash: string): this;
+    build(): string;
+    reset(): this;
+}

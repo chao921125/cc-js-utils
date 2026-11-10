@@ -10,6 +10,7 @@
     "outDir": "./dist",
     "rootDir": "./",
     "skipLibCheck": true,
+    "types": ["node"],
     "noImplicitAny": false,
     "strictNullChecks": false,
     "strict": false,

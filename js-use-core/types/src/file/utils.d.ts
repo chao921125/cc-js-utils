@@ -1,0 +1,12 @@
+import { FileTypeResult } from '../types';
+export declare function isBase64(str: string): boolean;
+export declare function isBlob(obj: any): obj is Blob;
+export declare function isFile(obj: any): obj is File;
+export declare function getFileExtension(filename: string): string;
+export declare function getExtensionFromMimeType(mimeType: string): string;
+export declare function getMimeTypeFromExtension(extension: string): string;
+export declare function checkFileType(file: File | string): FileTypeResult;
+export declare function generateRandomFileName(extension?: string): string;
+export declare function getMimeTypeFromDataURL(dataURL: string): string;
+export declare function getBase64FromDataURL(dataURL: string): string;
+export declare function delay(ms: number): Promise<void>;

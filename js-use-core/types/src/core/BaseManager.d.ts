@@ -1,0 +1,52 @@
+import { BaseOptions } from '../types/core';
+import { ProcessedError } from '../types/errors';
+import { EventEmitter } from './EventEmitter';
+import { ErrorHandler } from './ErrorHandler';
+import { Logger } from './Logger';
+import { Cache } from './Cache';
+export declare abstract class BaseManager<T extends BaseOptions = BaseOptions> {
+    protected options: Required<T>;
+    protected eventEmitter: EventEmitter;
+    protected errorHandler: ErrorHandler;
+    protected logger: Logger;
+    protected cache?: Cache;
+    protected initialized: boolean;
+    protected destroyed: boolean;
+    private initPromise?;
+    private initializing;
+    constructor(options?: T, moduleName?: string);
+    abstract initialize(): Promise<void>;
+    abstract destroy(): void;
+    protected abstract getDefaultOptions(): Required<T>;
+    on(event: string, listener: (...args: any[]) => void, options?: {
+        once?: boolean;
+        priority?: number;
+    }): this;
+    off(event: string, listener?: (...args: any[]) => void): this;
+    emit(event: string, ...args: any[]): boolean;
+    once(event: string, listener: (...args: any[]) => void, priority?: number): this;
+    listenerCount(event: string): number;
+    eventNames(): string[];
+    protected handleError(error: Error, context?: string): ProcessedError;
+    protected validateInput(input: any, schema: any): boolean;
+    protected safeExecute<R>(operation: () => Promise<R>, context: string, retries?: number): Promise<R>;
+    protected getCached<R>(key: string): R | undefined;
+    protected setCached<R>(key: string, value: R, ttl?: number): void;
+    protected getOrSetCached<R>(key: string, factory: () => Promise<R>, ttl?: number): Promise<R>;
+    protected ensureInitialized(): Promise<void>;
+    protected ensureInitializedSync(): void;
+    protected ensureNotDestroyed(): void;
+    ready(): Promise<void>;
+    getStatus(): {
+        initialized: boolean;
+        destroyed: boolean;
+        eventListeners: number;
+        cacheSize?: number;
+        initializing: boolean;
+    };
+    updateOptions(newOptions: Partial<T>): void;
+    private mergeDefaultOptions;
+    private setupErrorHandling;
+    private startAutoInitialization;
+    protected baseDestroy(): void;
+}

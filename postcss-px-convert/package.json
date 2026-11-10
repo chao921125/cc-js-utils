@@ -1,6 +1,6 @@
 {
 	"name": "postcss-px-convert",
-	"version": "1.4.3",
+	"version": "1.5.0",
 	"description": "A PostCSS plugin and Node tool for converting px to rem or vw, suitable for CSS, JS, Vue, React and other scenarios.",
 	"keywords": [
 		"postcss",
@@ -15,13 +15,14 @@
 		"mobile",
 		"flexible"
 	],
-	"homepage": "https://github.com/chao921125/postcss-px-convert",
+	"homepage": "https://github.com/chao921125/cc-js-utils/tree/main/postcss-px-convert",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/chao921125/postcss-px-convert.git"
+		"url": "git+https://github.com/chao921125/cc-js-utils.git",
+		"directory": "postcss-px-convert"
 	},
 	"bugs": {
-		"url": "https://github.com/chao921125/postcss-px-convert/issues"
+		"url": "https://github.com/chao921125/cc-js-utils/issues"
 	},
 	"author": {
 		"name": "chao921125",
@@ -36,9 +37,19 @@
 	],
 	"exports": {
 		".": {
+			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js",
 			"require": "./dist/index.js",
 			"default": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"peerDependencies": {
+		"postcss": "^8.4.0"
+	},
+	"peerDependenciesMeta": {
+		"postcss": {
+			"optional": true
 		}
 	},
 	"scripts": {
@@ -47,6 +58,7 @@
 		"test": "jest",
 		"test:watch": "jest --watchAll",
 		"clean": "rm -rf dist",
+		"prepack": "npm run clean && npm run build",
 		"prepublishOnly": "npm run clean && npm run build"
 	},
 	"jest": {
@@ -58,11 +70,11 @@
 	},
 	"devDependencies": {
 		"@types/jest": "^30.0.0",
-		"@types/node": "^25.9.1",
-		"jest": "^30.4.2",
-		"postcss": "^8.5.15",
-		"ts-jest": "^29.4.10",
-		"typescript": "^6.0.3"
+		"@types/node": "^26.6.6",
+		"jest": "^30.5.2",
+		"postcss": "^8.5.32",
+		"ts-jest": "^29.4.15",
+		"typescript": "^7.0.2"
 	},
 	"overrides": {},
 	"engines": {

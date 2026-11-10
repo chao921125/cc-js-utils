@@ -4,7 +4,8 @@
     "target": "ES2020",
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable", "ES6"],
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -44,21 +45,20 @@
     "incremental": true,
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     
-    // 路径映射
-    "baseUrl": ".",
+    // 路径映射 (TS7 已移除 baseUrl，改用相对路径的 paths)
     "paths": {
-      "@/*": ["src/*"],
-      "@/core/*": ["src/core/*"],
-      "@/types/*": ["src/types/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/clipboard/*": ["src/clipboard/*"],
-      "@/device/*": ["src/device/*"],
-      "@/file/*": ["src/file/*"],
-      "@/font/*": ["src/font/*"],
-      "@/fullscreen/*": ["src/fullscreen/*"],
-      "@/image/*": ["src/image/*"],
-      "@/ua/*": ["src/ua/*"],
-      "@/url/*": ["src/url/*"]
+      "@/*": ["./src/*"],
+      "@/core/*": ["./src/core/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/clipboard/*": ["./src/clipboard/*"],
+      "@/device/*": ["./src/device/*"],
+      "@/file/*": ["./src/file/*"],
+      "@/font/*": ["./src/font/*"],
+      "@/fullscreen/*": ["./src/fullscreen/*"],
+      "@/image/*": ["./src/image/*"],
+      "@/ua/*": ["./src/ua/*"],
+      "@/url/*": ["./src/url/*"]
     },
     
     // 其他配置

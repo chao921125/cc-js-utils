@@ -22,6 +22,10 @@ docs/
 *.sublime-project
 *.sublime-workspace
 
+# 构建产物中的垃圾文件
+*.tsbuildinfo
+dist/stats.html
+
 # 其他
 .git/
 .github/

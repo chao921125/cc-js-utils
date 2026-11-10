@@ -5,12 +5,11 @@
  * - core: 核心引擎和工具模块
  * - vue: Vue 3 组件
  * - react: React 组件
- * - plugins: 插件模块
  * - types: TypeScript 类型定义
- * 
+ *
  * 输出格式：
  * - ESM (.esm.js)
- * - CJS (.cjs.js)
+ * - CJS (.cjs，使用 .cjs 扩展名以兼容 "type": "module")
  * - Types (.d.ts)
  */
 
@@ -79,7 +78,7 @@ export default [
     input: 'src/core/index.ts',
     external,
     output: {
-      file: 'dist/core/index.cjs.js',
+      file: 'dist/core/index.cjs',
       format: 'cjs',
       exports: 'named',
       sourcemap: true
@@ -128,7 +127,7 @@ export default [
     input: 'src/vue/index.ts',
     external,
     output: {
-      file: 'dist/vue/index.cjs.js',
+      file: 'dist/vue/index.cjs',
       format: 'cjs',
       exports: 'named',
       sourcemap: true
@@ -177,7 +176,7 @@ export default [
     input: 'src/react/index.ts',
     external,
     output: {
-      file: 'dist/react/index.cjs.js',
+      file: 'dist/react/index.cjs',
       format: 'cjs',
       exports: 'named',
       sourcemap: true
@@ -195,6 +194,19 @@ export default [
     input: 'src/react/index.ts',
     output: {
       file: 'dist/react/index.d.ts',
+      format: 'es'
+    },
+    plugins: [dts()],
+    external
+  },
+
+  // ==================== Types 模块 ====================
+
+  // Types 类型定义 (纯类型文件，仅产出 .d.ts)
+  {
+    input: 'src/types/index.ts',
+    output: {
+      file: 'dist/types/index.d.ts',
       format: 'es'
     },
     plugins: [dts()],

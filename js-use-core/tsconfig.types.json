@@ -1,0 +1,33 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": true,
+    "sourceMap": false,
+    "removeComments": true,
+    "importHelpers": false,
+    "outDir": "./types",
+    "rootDir": "./",
+    "skipLibCheck": true,
+    "types": ["node"],
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strict": false
+  },
+  "include": [
+    "src/**/*",
+    "index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "test",
+    "examples",
+    "coverage",
+    "dist",
+    "types",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
+}

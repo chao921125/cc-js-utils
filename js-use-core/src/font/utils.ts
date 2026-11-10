@@ -1,28 +1,15 @@
-import FontManager from './index';
+import FontManager from './FontManager';
+import type {
+  FontOptions as FontManagerOptions,
+  FontCheckResult as FontManagerCheckResult,
+  FontLoadResult as FontManagerLoadResult,
+} from './FontManager';
 
-// 重新定义这些类型以避免循环依赖
-export interface FontOptions {
-  timeout?: number;
-  retries?: number;
-  cache?: boolean;
-  concurrency?: number;
-  detectionThreshold?: number;
-}
-
-export interface FontCheckResult {
-  name: string;
-  loaded: boolean;
-  status: string;
-  loadTime?: number;
-  error?: string;
-}
-
-export interface FontLoadResult {
-  success: boolean;
-  allFonts: FontCheckResult[];
-  failedFonts?: FontCheckResult[];
-  totalLoadTime?: number;
-}
+// 这些类型直接复用 FontManager 中的定义。
+// FontManager 已抽离为独立模块，不再与 index.ts 形成循环依赖，无需重复定义。
+export type FontOptions = FontManagerOptions;
+export type FontCheckResult = FontManagerCheckResult;
+export type FontLoadResult = FontManagerLoadResult;
 
 // 全局字体管理器实例
 let globalFontManager: FontManager | null = null;

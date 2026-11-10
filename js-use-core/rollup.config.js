@@ -36,7 +36,9 @@ const basePlugins = [
     declarationMap: false,
     sourceMap: !isProduction,
     inlineSources: !isProduction,
-    noEmitOnError: false
+    noEmitOnError: false,
+    // 由 rollup 负责产物输出，避免插件额外落盘并消除默认行为警告
+    outputToFilesystem: false
   })
 ];
 
@@ -68,9 +70,9 @@ const productionPlugins = isProduction ? [
 const mainConfig = {
   input: 'index.ts',
   output: [
-    // CommonJS 格式
+    // CommonJS 格式 (使用 .cjs 扩展名，确保在 "type": "module" 下被 Node 正确识别为 CJS)
     {
-      file: 'dist/index.cjs.js',
+      file: 'dist/index.cjs',
       format: 'cjs',
       sourcemap: !isProduction,
       exports: 'named',
@@ -141,8 +143,16 @@ const moduleConfig = {
 };
 
 // 类型定义构建配置
+//
+// 说明：rollup 在合成命名空间时，对「重新赋值」的变量（如 TS 编译出的枚举）
+// 会生成 getter 形式：Object.freeze({ get X () { return X; } })。
+// rollup-plugin-dts 的 NamespaceFixer 仅识别 `X: X` 形式的属性赋值，
+// 遇到 getter 形式会抛出 "Expected a property assignment"。
+//
+// 因此这里先由 tsc 预生成 .d.ts，再交给 rollup-plugin-dts 打包。
+// tsc 输出的声明文件不含 Object.freeze/getter 形态，可稳定通过。
 const dtsConfig = {
-  input: 'index.ts',
+  input: 'types/index.d.ts',
   output: [
     { file: 'dist/index.d.ts', format: 'es' }
   ],
@@ -156,9 +166,9 @@ const dtsConfig = {
 };
 
 // 分模块构建配置 (支持按需导入)
-const moduleBuilds = [
+const moduleNames = [
   'core',
-  'clipboard', 
+  'clipboard',
   'device',
   'file',
   'font',
@@ -167,7 +177,9 @@ const moduleBuilds = [
   'ua',
   'url',
   'utils'
-].map(moduleName => ({
+];
+
+const moduleBuilds = moduleNames.map(moduleName => ({
   input: `src/${moduleName}/index.ts`,
   output: [
     {
@@ -177,7 +189,7 @@ const moduleBuilds = [
       exports: 'named'
     },
     {
-      file: `dist/${moduleName}.cjs.js`,
+      file: `dist/${moduleName}.cjs`,
       format: 'cjs',
       sourcemap: !isProduction,
       exports: 'named'
@@ -195,10 +207,28 @@ const moduleBuilds = [
   }
 }));
 
+// 分模块类型定义构建配置
+// exports 中每个子路径都声明了 types 字段，必须产出对应的 .d.ts 文件
+// 输入为 tsc 预生成的类型声明，原因同 dtsConfig
+const moduleDtsBuilds = moduleNames.map(moduleName => ({
+  input: `types/src/${moduleName}/index.d.ts`,
+  output: [
+    { file: `dist/${moduleName}.d.ts`, format: 'es' }
+  ],
+  plugins: [
+    dts({
+      tsconfig: './tsconfig.build.json',
+      respectExternal: true
+    })
+  ],
+  external
+}));
+
 // 导出配置
 export default [
   mainConfig,
   moduleConfig,
   dtsConfig,
-  ...moduleBuilds
-]; 
+  ...moduleBuilds,
+  ...moduleDtsBuilds
+];
