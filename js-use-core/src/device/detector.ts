@@ -235,7 +235,7 @@ export function isTouchDevice(): boolean {
   return (
     'ontouchstart' in window ||
     navigator.maxTouchPoints > 0 ||
-    // @ts-ignore
+    // @ts-expect-error -- IE 专有属性，标准类型定义中不存在
     navigator.msMaxTouchPoints > 0
   );
 }
@@ -361,7 +361,7 @@ export function enhancedMobileDetection(opts?: MobileDetectOptions): {
   const pixelRatio = window.devicePixelRatio || 1;
 
   // 基于屏幕尺寸的判断
-  let featureResult = {
+  const featureResult = {
     isMobile: false,
     isTablet: false
   };

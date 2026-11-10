@@ -175,7 +175,7 @@ export function getNetworkType(): NetworkType {
     return NetworkType.UNKNOWN;
   }
   
-  // @ts-ignore
+  // @ts-expect-error -- 浏览器厂商私有属性，标准类型定义中不存在
   const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   
   if (!connection) return NetworkType.UNKNOWN;
@@ -198,7 +198,7 @@ export function getNetworkSpeed() {
     return { downlink: 0, rtt: 0, effectiveType: 'unknown' };
   }
   
-  // @ts-ignore
+  // @ts-expect-error -- 浏览器厂商私有属性，标准类型定义中不存在
   const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   
   if (!connection) {
@@ -253,7 +253,7 @@ export async function getBatteryInfo(): Promise<any> {
   }
   
   try {
-    // @ts-ignore
+    // @ts-expect-error -- 浏览器厂商私有属性，标准类型定义中不存在
     const battery = await navigator.getBattery();
     return {
       charging: battery.charging,
@@ -482,7 +482,7 @@ export function isEnhancedTouchDevice(): boolean {
   return (
     'ontouchstart' in window ||
     navigator.maxTouchPoints > 0 ||
-    // @ts-ignore
+    // @ts-expect-error -- 浏览器厂商私有属性，标准类型定义中不存在
     navigator.msMaxTouchPoints > 0 ||
     // 检测CSS媒体查询
     (window.matchMedia && window.matchMedia('(pointer: coarse)').matches)
@@ -507,9 +507,9 @@ export function runPerformanceBenchmark(): Promise<{
     
     // JavaScript性能测试
     const jsStart = performance.now();
-    let sum = 0;
+    // 循环执行随机运算以测量 JS 执行性能，结果无需使用
     for (let i = 0; i < 1000000; i++) {
-      sum += Math.random();
+      Math.random();
     }
     results.jsPerformance = performance.now() - jsStart;
     

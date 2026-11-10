@@ -9,7 +9,7 @@
 import { Cache } from '../core/Cache';
 import { Logger } from '../core/Logger';
 import { ErrorHandler } from '../core/ErrorHandler';
-import { ErrorType, type ErrorContext } from '../core/types';
+import { type ErrorContext } from '../core/types';
 
 /**
  * 浏览器特征检测结果
@@ -134,7 +134,7 @@ export class BrowserAdapter {
   /**
    * 获取带前缀的方法
    */
-  getPrefixedMethod(methodName: string, target: any = window): Function | null {
+  getPrefixedMethod(methodName: string, target: any = window): ((...args: any[]) => any) | null {
     const result = this.detectFeature(methodName, 'method', target);
     if (!result.supported) return null;
 
@@ -628,7 +628,7 @@ export function getPrefixedProperty(property: string): string | null {
 /**
  * 获取带前缀的方法（便捷函数）
  */
-export function getPrefixedMethod(methodName: string, target?: any): Function | null {
+export function getPrefixedMethod(methodName: string, target?: any): ((...args: any[]) => any) | null {
   return getBrowserAdapter().getPrefixedMethod(methodName, target);
 }
 

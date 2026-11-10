@@ -3,7 +3,7 @@
  */
 
 import { EventEmitter } from '../core/EventEmitter';
-import { FontLoadingState, FontLoadProgress } from './FontLoadingStateManager';
+import { FontLoadingState } from './FontLoadingStateManager';
 
 export interface FontProgressEvent {
   fontName: string;

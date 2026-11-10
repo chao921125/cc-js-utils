@@ -8,7 +8,6 @@ import { parseUA } from './parser';
 import { generateUA } from './generator';
 import { satisfies, isModern } from './comparator';
 import { BaseManager } from '../core/BaseManager';
-import { BaseOptions } from '../types/core';
 
 
 

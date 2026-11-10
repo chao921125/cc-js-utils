@@ -2,7 +2,7 @@
  * URL 解析相关功能
  */
 
-import type { UrlParseResult, UrlInfo, QueryParams } from './types';
+import type { UrlParseResult, QueryParams } from './types';
 import { decodeUrl, encodeUrl } from './utils';
 
 /**

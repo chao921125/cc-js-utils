@@ -386,8 +386,8 @@ export class ImageManager extends BaseManager<ImageManagerOptions> {
     const startTime = Date.now();
 
     try {
-      let mimeType = blob.type || 'application/octet-stream';
-      let extension = getExtensionFromMimeType(mimeType);
+      const mimeType = blob.type || 'application/octet-stream';
+      const extension = getExtensionFromMimeType(mimeType);
       
       // 生成或处理文件名
       let finalFilename: string;
@@ -433,7 +433,7 @@ export class ImageManager extends BaseManager<ImageManagerOptions> {
       throw this.handleError(new Error('File is not an image format'), 'imgConvert');
     }
 
-    const { format, quality = this.options.defaultQuality, preserveMetadata = false } = options;
+    const { format, quality = this.options.defaultQuality } = options;
     
     // 验证格式支持
     if (!this.options.supportedFormats.includes(format)) {
@@ -837,8 +837,8 @@ export function dataURLtoImgBlob(dataURL: string): Blob {
 export function dataURLtoFile(dataURL: string, filename?: string): File {
   // 简化实现，不依赖管理器（向后兼容）
   const blob = dataURLtoBlob(dataURL);
-  let mimeType = blob.type || 'application/octet-stream';
-  let extension = getExtensionFromMimeType(mimeType);
+  const mimeType = blob.type || 'application/octet-stream';
+  const extension = getExtensionFromMimeType(mimeType);
   
   // 生成或处理文件名
   let finalFilename: string;

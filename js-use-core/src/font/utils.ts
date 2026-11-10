@@ -191,7 +191,7 @@ export function isCrossDomainUrl(url: string): boolean {
     }
     
     return false;
-  } catch (e) {
+  } catch {
     // 如果URL解析错误，保守起见返回true
     return true;
   }

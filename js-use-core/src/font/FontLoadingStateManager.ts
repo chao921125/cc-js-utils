@@ -99,7 +99,7 @@ export class FontLoadingStateManager extends EventEmitter {
       return existingState;
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       const timeoutId = setTimeout(() => {
         const state = this.fontStates.get(fontName);
         if (state && state.status !== 'loaded') {

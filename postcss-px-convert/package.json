@@ -74,7 +74,8 @@
 		"jest": "^30.5.2",
 		"postcss": "^8.5.32",
 		"ts-jest": "^29.4.15",
-		"typescript": "^7.0.2"
+		"@typescript/native": "npm:typescript@^7.0.2",
+		"typescript": "npm:@typescript/typescript6@^6.0.2"
 	},
 	"overrides": {},
 	"engines": {

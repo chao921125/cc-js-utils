@@ -264,18 +264,18 @@ export function isSecureUrl(url: string): boolean {
     }
     
     // 检查可疑的主机名
-    const hostname = urlObj.hostname.toLowerCase();
-    const suspiciousPatterns = [
-      /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/, // 纯IP地址（可选择性阻止）
-      /localhost/,
-      /127\.0\.0\.1/,
-      /0\.0\.0\.0/,
-      /\.(local|internal|corp)$/
-    ];
-    
+    // 注意：以下模式当前未启用（如需阻止纯 IP / localhost 等，请在此处补充判断）
+    // const suspiciousPatterns = [
+    //   /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/, // 纯IP地址（可选择性阻止）
+    //   /localhost/,
+    //   /127\.0\.0\.1/,
+    //   /0\.0\.0\.0/,
+    //   /\.(local|internal|corp)$/
+    // ];
+
     // 这里可以根据需要调整安全策略
     // 目前只阻止明显危险的协议
-    
+
     return true;
   } catch {
     return false;
@@ -291,6 +291,7 @@ export function sanitizeUrl(url: string): string {
   if (!url || typeof url !== 'string') return '';
   
   // 移除控制字符和不可见字符
+  // eslint-disable-next-line no-control-regex -- 目的正是匹配并清除控制字符
   let cleaned = url.replace(/[\x00-\x1F\x7F-\x9F]/g, '');
   
   // 移除多余的空白字符

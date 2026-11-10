@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
+import globals from 'globals'
 
 export default [
   js.configs.recommended,
@@ -13,20 +14,11 @@ export default [
         sourceType: 'module',
         project: './tsconfig.json'
       },
+      // 使用 globals 包声明浏览器/Node 全局对象，避免手工维护遗漏
+      // （例如 performance、navigator 等在浏览器环境是标准全局变量）
       globals: {
-        window: 'readonly',
-        document: 'readonly',
-        console: 'readonly',
-        setTimeout: 'readonly',
-        setInterval: 'readonly',
-        clearTimeout: 'readonly',
-        clearInterval: 'readonly',
-        requestAnimationFrame: 'readonly',
-        cancelAnimationFrame: 'readonly',
-        HTMLDivElement: 'readonly',
-        HTMLElement: 'readonly',
-        Event: 'readonly',
-        CustomEvent: 'readonly'
+        ...globals.browser,
+        ...globals.node
       }
     },
     plugins: {

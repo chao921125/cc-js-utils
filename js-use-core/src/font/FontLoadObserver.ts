@@ -5,7 +5,7 @@
 import { EventEmitter } from '../core/EventEmitter';
 import { FontLoadingState } from './FontLoadingStateManager';
 import { TimingController } from './TimingController';
-import { FontEventSystem, FontProgressEvent } from './FontEventSystem';
+import { FontEventSystem } from './FontEventSystem';
 
 export interface ObserverOptions {
   timeout?: number;
@@ -71,7 +71,7 @@ export class FontLoadObserver extends EventEmitter {
       const opts = { ...this.defaultOptions, ...options };
       
       // Set up batch timeout if specified
-      let batchTimeoutId: NodeJS.Timeout | undefined;
+      let batchTimeoutId: ReturnType<typeof setTimeout> | undefined;
       if (opts.timeout > 0) {
         batchTimeoutId = setTimeout(() => {
           this.eventSystem.handleBatchTimeout(batchId, opts.timeout);
@@ -214,7 +214,7 @@ export class FontLoadObserver extends EventEmitter {
   /**
    * Select the best observation method for a font
    */
-  private selectBestMethod(fontName: string): 'fontface' | 'document' | 'detection' {
+  private selectBestMethod(_fontName: string): 'fontface' | 'document' | 'detection' {
     // Check if FontFace API is available
     if (typeof FontFace !== 'undefined') {
       return 'fontface';
@@ -282,7 +282,8 @@ export class FontLoadObserver extends EventEmitter {
       return { status: 'loaded', loadMethod: 'fontface' };
     } catch (error) {
       if (signal.aborted) {
-        throw new Error('Observation aborted');
+        // 附加 cause 保留原始错误链
+        throw new Error('Observation aborted', { cause: error });
       }
       
       if (this.timingController.isTimeoutError(error as Error)) {

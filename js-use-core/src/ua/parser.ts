@@ -706,7 +706,7 @@ function isBot(ua: string): boolean {
     /validator/i,
     
     // 通用 bot 标识
-    /bot[\s\/]/i,
+    /bot[\s/]/i,
     /\sbot$/i,
     /^bot/i,
     

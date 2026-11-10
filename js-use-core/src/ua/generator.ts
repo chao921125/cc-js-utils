@@ -35,7 +35,7 @@ class WindowsUABuilder implements UABuilder {
 
   buildSystemInfo(): string {
     const { os, cpu } = this.spec;
-    let ntVersion = '10.0';
+    let ntVersion: string;
     
     // Windows 版本映射
     switch (os.version) {

@@ -17,8 +17,7 @@ import {
   isBase64,
   isBlob,
   isFile,
-  getFileExtension,
-  getMimeTypeFromExtension
+  getFileExtension
 } from './utils';
 
 /**
@@ -321,8 +320,8 @@ export class FileManager extends BaseManager<FileManagerOptions> {
     const startTime = Date.now();
 
     try {
-      let mimeType = blob.type || 'application/octet-stream';
-      let extension = getExtensionFromMimeType(mimeType);
+      const mimeType = blob.type || 'application/octet-stream';
+      const extension = getExtensionFromMimeType(mimeType);
       
       // 生成或处理文件名
       let finalFilename: string;
@@ -397,8 +396,8 @@ export class FileManager extends BaseManager<FileManagerOptions> {
     const startTime = Date.now();
 
     try {
-      let mimeType = blob.type || 'application/octet-stream';
-      let extension = getExtensionFromMimeType(mimeType);
+      const mimeType = blob.type || 'application/octet-stream';
+      const extension = getExtensionFromMimeType(mimeType);
       
       // 生成或处理文件名
       let finalFilename: string;

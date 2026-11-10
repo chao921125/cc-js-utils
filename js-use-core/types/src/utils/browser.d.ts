@@ -34,7 +34,7 @@ export declare class BrowserAdapter {
     constructor(config?: BrowserAdapterConfig);
     isSupported(feature: string): boolean;
     getPrefixedProperty(property: string): string | null;
-    getPrefixedMethod(methodName: string, target?: any): Function | null;
+    getPrefixedMethod(methodName: string, target?: any): ((...args: any[]) => any) | null;
     getPrefixedCSSProperty(property: string): string | null;
     detectFeature(feature: string, method?: FeatureDetectionResult['method'], target?: any): FeatureDetectionResult;
     private detectProperty;
@@ -57,7 +57,7 @@ export declare class BrowserAdapter {
 export declare function getBrowserAdapter(config?: BrowserAdapterConfig): BrowserAdapter;
 export declare function isFeatureSupported(feature: string): boolean;
 export declare function getPrefixedProperty(property: string): string | null;
-export declare function getPrefixedMethod(methodName: string, target?: any): Function | null;
+export declare function getPrefixedMethod(methodName: string, target?: any): ((...args: any[]) => any) | null;
 export declare function getPrefixedCSSProperty(property: string): string | null;
 export declare function getBrowserInfo(): BrowserInfo;
 export declare function addEventListenerCompat(element: Element | Document | Window, event: string, handler: EventListener, options?: AddEventListenerOptions): () => void;

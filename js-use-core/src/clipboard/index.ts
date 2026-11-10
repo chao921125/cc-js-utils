@@ -1,4 +1,4 @@
-import { isElement, getElement } from '../utils/dom';
+import { getElement } from '../utils/dom';
 import { BaseManager } from '../core/BaseManager';
 import { BaseOptions } from '../types/core';
 import { ErrorType } from '../types/errors';
@@ -382,7 +382,7 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
         return cached;
       }
 
-      let result = false;
+      let result: boolean;
       let permissionResult: PermissionRequestResult | null = null;
 
       try {
@@ -420,7 +420,7 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
           try {
             result = await this.fallbackCopyText(processedText);
             this.logger.warn('Fallback to alternative method after API failure');
-          } catch (fallbackError) {
+          } catch {
             // 如果降级也失败，抛出原始错误
             throw error;
           }
@@ -497,7 +497,7 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
         return cached;
       }
 
-      let result = false;
+      let result: boolean;
       let permissionResult: PermissionRequestResult | null = null;
 
       try {
@@ -539,7 +539,7 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
           try {
             result = await this.fallbackCopyHTML(processedHtml);
             this.logger.warn('Fallback to alternative method after HTML API failure');
-          } catch (fallbackError) {
+          } catch {
             // 如果降级也失败，抛出原始错误
             throw error;
           }
@@ -625,11 +625,9 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
         );
       }
 
-      let permissionResult: PermissionRequestResult | null = null;
-
       // 智能权限检查和请求
       if (this.options.enablePermissionCheck) {
-        permissionResult = await this.requestPermissionSmart('read');
+        const permissionResult = await this.requestPermissionSmart('read');
         
         if (!permissionResult.granted) {
           throw permissionResult.error || this.errorHandler.createError(
@@ -761,7 +759,7 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
    * @param options 复制选项
    * @returns 是否复制成功
    */
-  async copyFiles(files: File[], options: CopyOptions = {}): Promise<boolean> {
+  async copyFiles(files: File[], _options: CopyOptions = {}): Promise<boolean> {
     await this.ensureInitialized();
     this.ensureNotDestroyed();
 
@@ -780,11 +778,9 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
         this.validateClipboardData(files, 'files');
       }
 
-      let permissionResult: PermissionRequestResult | null = null;
-
       // 智能权限检查和请求
       if (this.options.enablePermissionCheck) {
-        permissionResult = await this.requestPermissionSmart('write');
+        const permissionResult = await this.requestPermissionSmart('write');
         
         if (!permissionResult.granted && !permissionResult.fallbackAvailable) {
           throw permissionResult.error || this.errorHandler.createError(
@@ -856,11 +852,9 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
         );
       }
 
-      let permissionResult: PermissionRequestResult | null = null;
-
       // 智能权限检查和请求
       if (this.options.enablePermissionCheck) {
-        permissionResult = await this.requestPermissionSmart('read');
+        const permissionResult = await this.requestPermissionSmart('read');
         
         if (!permissionResult.granted) {
           throw permissionResult.error || this.errorHandler.createError(
@@ -927,35 +921,38 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
 
       try {
         switch (format) {
-          case 'html':
+          case 'html': {
             const html = await this.readHTML(options);
-            return { 
-              type: 'html', 
-              data: html, 
+            return {
+              type: 'html',
+              data: html,
               size: html.length,
               timestamp: Date.now(),
               mimeType: 'text/html',
               encoding: 'utf-8'
             };
-          case 'files':
+          }
+          case 'files': {
             const files = await this.readFiles(options);
-            return { 
-              type: 'files', 
-              data: files, 
+            return {
+              type: 'files',
+              data: files,
               size: files.reduce((total, file) => total + file.size, 0),
               timestamp: Date.now()
             };
+          }
           case 'text':
-          default:
+          default: {
             const text = await this.readText(options);
-            return { 
-              type: 'text', 
-              data: text, 
+            return {
+              type: 'text',
+              data: text,
               size: text.length,
               timestamp: Date.now(),
               mimeType: 'text/plain',
               encoding: 'utf-8'
             };
+          }
         }
       } catch (error) {
         if (fallback) {
@@ -1226,7 +1223,7 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
       name: 'htmlStructure',
       validate: (data: string) => {
         // 简单的HTML结构检查
-        const openTags = (data.match(/<[^\/][^>]*>/g) || []).length;
+        const openTags = (data.match(/<[^/][^>]*>/g) || []).length;
         const closeTags = (data.match(/<\/[^>]*>/g) || []).length;
         
         if (Math.abs(openTags - closeTags) > 10) {
@@ -1621,7 +1618,7 @@ export class ClipboardManager extends BaseManager<ClipboardManagerOptions> {
     }
 
     // 移除危险的标签和属性
-    let sanitized = html
+    const sanitized = html
       .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
       .replace(/javascript:/gi, '')
       .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
@@ -2418,7 +2415,7 @@ class TextToHtmlConverter extends BaseDataConverter {
       .replace(/'/g, '&#39;')
       .replace(/\n/g, '<br>')
       .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
-      .replace(/  /g, '&nbsp;&nbsp;');
+      .replace(/ {2}/g, '&nbsp;&nbsp;');
   }
 
   validateInput(data: any): boolean {

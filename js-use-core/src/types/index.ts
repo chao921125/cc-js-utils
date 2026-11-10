@@ -639,11 +639,13 @@ export interface EventListenerOptions extends AddEventListenerOptions {
 /**
  * 构造函数类型
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type -- {} 作为泛型默认值，允许任意实例类型
 export type Constructor<T = {}> = new (...args: any[]) => T;
 
 /**
  * 抽象构造函数类型
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type -- 同上，{} 作为泛型默认值
 export type AbstractConstructor<T = {}> = abstract new (...args: any[]) => T;
 
 /**

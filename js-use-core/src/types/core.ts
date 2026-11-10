@@ -91,9 +91,9 @@ export interface IBaseManager<T = any> {
   destroy(): Promise<void>;
   
   /** 添加事件监听器 */
-  on(event: string, listener: Function): void;
+  on(event: string, listener: EventListener): void;
   /** 移除事件监听器 */
-  off(event: string, listener: Function): void;
+  off(event: string, listener: EventListener): void;
   /** 触发事件 */
   emit(event: string, ...args: any[]): void;
 }

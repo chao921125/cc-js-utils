@@ -118,7 +118,7 @@ export declare class ClipboardManager extends BaseManager<ClipboardManagerOption
     copyElement(element: Element | string, options?: CopyOptions): Promise<boolean>;
     readText(options?: PasteOptions): Promise<string>;
     readHTML(options?: PasteOptions): Promise<string>;
-    copyFiles(files: File[], options?: CopyOptions): Promise<boolean>;
+    copyFiles(files: File[], _options?: CopyOptions): Promise<boolean>;
     readFiles(options?: PasteOptions): Promise<File[]>;
     read(options?: PasteOptions): Promise<ClipboardData>;
     private getFileExtension;

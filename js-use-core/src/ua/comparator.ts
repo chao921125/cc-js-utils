@@ -3,6 +3,7 @@
  */
 
 import type { ParsedUA, VersionOperator, VersionRange, ModernBrowserOptions } from './types';
+import { parseUA } from './parser';
 
 /**
  * 版本比较结果枚举
@@ -244,7 +245,6 @@ export function satisfies(ua: ParsedUA | string, range: string | string[]): bool
     
     if (typeof ua === 'string') {
       // 如果是字符串，需要先解析
-      const { parseUA } = require('./parser');
       parsedUA = parseUA(ua);
     } else {
       parsedUA = ua;
@@ -319,7 +319,7 @@ function isBrowserMatch(browserName: string, targetName: string): boolean {
   };
 
   // 检查别名匹配
-  for (const [canonical, aliasList] of Object.entries(aliases)) {
+  for (const [, aliasList] of Object.entries(aliases)) {
     if (aliasList.includes(normalizedBrowser) && aliasList.includes(normalizedTarget)) {
       return true;
     }
@@ -535,14 +535,12 @@ export function compareUA(ua1: ParsedUA | string, ua2: ParsedUA | string): Compa
     let parsedUA2: ParsedUA;
 
     if (typeof ua1 === 'string') {
-      const { parseUA } = require('./parser');
       parsedUA1 = parseUA(ua1);
     } else {
       parsedUA1 = ua1;
     }
 
     if (typeof ua2 === 'string') {
-      const { parseUA } = require('./parser');
       parsedUA2 = parseUA(ua2);
     } else {
       parsedUA2 = ua2;

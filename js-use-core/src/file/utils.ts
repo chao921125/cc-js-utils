@@ -17,7 +17,7 @@ export function isBase64(str: string): boolean {
   // 检查是否符合Base64编码规则
   try {
     return btoa(atob(str)) === str;
-  } catch (err) {
+  } catch {
     return false;
   }
 }
@@ -116,8 +116,8 @@ export function getMimeTypeFromExtension(extension: string): string {
  * @returns 文件类型检查结果
  */
 export function checkFileType(file: File | string): FileTypeResult {
-  let mimeType = '';
-  let extension = '';
+  let mimeType: string;
+  let extension: string;
   
   if (typeof file === 'string') {
     // 如果是字符串，当作文件名处理
@@ -181,7 +181,7 @@ export function generateRandomFileName(extension: string = ''): string {
  * @returns MIME类型
  */
 export function getMimeTypeFromDataURL(dataURL: string): string {
-  const regex = /^data:([\w\/+]+);base64,/;
+  const regex = /^data:([\w/+]+);base64,/;
   const matches = dataURL.match(regex);
   return matches && matches.length > 1 ? matches[1] : '';
 }

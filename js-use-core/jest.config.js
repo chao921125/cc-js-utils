@@ -10,12 +10,11 @@ export default {
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
   setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
-  moduleNameMapping: {
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json',
-    },
+  // ts-jest 的配置已从 globals 迁移到 transform 写法（globals 方式已废弃）
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
   },
-}; 
+};

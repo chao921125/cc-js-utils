@@ -14,7 +14,7 @@ import { CacheEntry, CacheConfig } from './types';
 export class Cache<T = any> {
   private cache: Map<string, CacheEntry<T>> = new Map();
   private config: Required<CacheConfig>;
-  private cleanupTimer?: NodeJS.Timeout;
+  private cleanupTimer?: ReturnType<typeof setInterval>;
 
   /**
    * 构造函数
@@ -247,7 +247,7 @@ export class Cache<T = any> {
     let expiredCount = 0;
     const now = Date.now();
 
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [, entry] of this.cache.entries()) {
       totalAccess += entry.accessCount;
       
       if (now > entry.expireAt) {

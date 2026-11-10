@@ -2,7 +2,7 @@
  * URL 主要功能类
  */
 
-import type { UrlInfo, QueryParams, UrlBuildOptions, UrlValidateOptions, UrlManagerOptions } from './types';
+import type { UrlInfo, QueryParams, UrlBuildOptions, UrlManagerOptions } from './types';
 import { parseQuery, stringifyQuery } from './parser';
 import { normalizeUrl, addQuery, removeQuery, isValidUrl } from './utils';
 import { BaseManager } from '../core/BaseManager';

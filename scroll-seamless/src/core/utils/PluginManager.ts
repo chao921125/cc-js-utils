@@ -59,7 +59,8 @@ export class PluginManager {
       const errorMessage = error instanceof Error ? error.message : String(error);
       
       if (this.strictMode) {
-        throw new Error(`[PluginManager] Plugin ${pluginName} failed: ${errorMessage}`);
+        // 附加 cause 保留原始错误链，便于上层定位根因
+        throw new Error(`[PluginManager] Plugin ${pluginName} failed: ${errorMessage}`, { cause: error });
       } else {
         ErrorHandler.logWarning(`Plugin ${pluginName} failed: ${errorMessage}`, 'PluginManager');
       }

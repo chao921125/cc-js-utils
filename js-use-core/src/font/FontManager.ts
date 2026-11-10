@@ -9,7 +9,7 @@ import { BaseManager } from '../core/BaseManager';
 import { BaseOptions } from '../types/core';
 import { ErrorType } from '../types/errors';
 import { TimingController } from './TimingController';
-import { FontLoadingStateManager, FontLoadingState } from './FontLoadingStateManager';
+import { FontLoadingStateManager } from './FontLoadingStateManager';
 
 export interface FontCheckResult {
   name: string;
@@ -388,7 +388,7 @@ class FontManager extends BaseManager<FontOptions> {
 
     return this.safeExecute(async () => {
       const startTime = Date.now();
-      let results: FontCheckResult[] = [];
+      let results: FontCheckResult[];
       
       if (!fontNames) {
         results = await this.checkAllFonts();
@@ -818,7 +818,7 @@ class FontManager extends BaseManager<FontOptions> {
       
       document.body.appendChild(testElement);
       
-      let detectionResults: boolean[] = [];
+      const detectionResults: boolean[] = [];
       
       for (const testString of testStrings) {
         testElement.textContent = testString;
@@ -1247,7 +1247,7 @@ class FontManager extends BaseManager<FontOptions> {
       }
       
       return false;
-    } catch (e) {
+    } catch {
       // 如果URL解析错误，保守起见返回true
       return true;
     }
